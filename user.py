@@ -17,6 +17,9 @@ class User(UserMixin):
         key = datastore_client.key('User', user_id)
         datastore_user = datastore_client.get(key)
 
+        if datastore_user is None:
+            return None
+
         user = User(
             id_=user_id, name=datastore_user["name"], email=datastore_user["email"], profile_pic=datastore_user["profile_pic"]
         )
