@@ -1,36 +1,49 @@
 <!doctype html>
-<!--
- Copyright 2021 Google LLC
 
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
 
-      http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-
-<html>
+<html style="
+    background: url({{background}}) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;"
+>
 <head>
-  <title>Datastore and Firebase Auth Example</title>
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
-  <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Datastore and Firebase Auth Example</title>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic">
+
 </head>
 <body>
+<nav class="demo">
+  <a href="#" class="brand">
+    <span>YourHomepage</span>
+  </a>
 
-  <h1>Datastore and Firebase Auth Example</h1>
-  <!-- [START gae_python38_datastore_print_times] -->
-  <!-- [START gae_python3_datastore_print_times] -->
-  <h2>Last 10 visits</h2>
-  {% for time in times %}
-    <p>{{ time['timestamp'] }}</p>
-  {% endfor %}
-  <!-- [END gae_python3_datastore_print_times] -->
-  <!-- [END gae_python38_datastore_print_times] -->
+  <!-- responsive-->
+  <input id="bmenub" type="checkbox" class="show">
+  <label for="bmenub" class="burger pseudo button">
+<div><img class="profile" src="{{profile_pic}}" alt="Google profile pic"></div></label>
+
+  <div class="menu">
+<div><img class="profile" src="{{profile_pic}}" alt="Google profile pic"></div>
+
+  </div>
+
+</nav>
+
+<div class="flex three demo">
+    {% for bookmark in bookmarks -%}
+      <div><span>{{bookmark.name}}</span></div>
+    {% endfor -%}
+</div>
+<a class="mdc-button foo-button" href="/logout">
+    <div class="mdc-button__ripple"></div>
+    <span class="mdc-button__label">Logout</span>
+</a>
+
+
+
 </body>
 </html>

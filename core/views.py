@@ -1,5 +1,5 @@
 import json
-from flask import redirect, request, url_for
+from flask import redirect, request, url_for, render_template
 import requests
 from flask_login import (
     current_user,
@@ -13,6 +13,7 @@ from oauthlib.oauth2 import WebApplicationClient
 from core import app
 from core.model.user import User
 from core.properties import Properties
+from core.controller.landingCtrl import LandingCtrl
 
 # Configuration
 properties = Properties()
@@ -28,17 +29,9 @@ client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
 @app.route("/")
 def index():
-    if current_user.is_authenticated:
-        return (
-            "<p>Hello, {}! You're logged in! Email: {}</p>"
-            "<div><p>Google Profile Picture:</p>"
-            '<img src="{}" alt="Google profile pic"></img></div>'
-            '<a class="button" href="/logout">Logout</a>'.format(
-                current_user.name, current_user.email, current_user.profile_pic
-            )
-        )
-    else:
-        return '<a class="button" href="/login">Google Login</a>'
+
+    landing_ctrl = LandingCtrl(current_user=current_user)
+    return landing_ctrl.render()
 
 def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
@@ -112,7 +105,7 @@ def callback():
 
     # Doesn't exist? Add it to the database.
     if User.get(unique_id) is None:
-        User.create(unique_id, users_name, users_email, picture)
+        user.put()
 
     # Begin user session by logging the user in
     login_user(user)
